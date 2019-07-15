@@ -78,12 +78,13 @@ class Graph:
     def addEdge(self, f, t, cost=0):
         """add an edge from vertex f to vertex t with a cost
         """
-        # TODO if either vertex is not in the graph,
-        # add it - or return an error (choice is up to you).
-        # TODO if both vertices in the graph, add the
+        #if either vertex is not in the graph, returns an error
+        #if both vertices in the graph, adds the
         # edge by making t a neighbor of f
-        # and using the addNeighbor method of the Vertex class.
-        # Hint: the vertex f is stored in self.vertList[f].
+        #using the addNeighbor method of the Vertex class.
+        if (getVertex(f) != None) and (getVertex(t) != None):
+            self.vertList[f].addNeighbor(t, cost)
+            self.vertList[t].addNeighbor(f, cost)
 
     def getVertices(self):
         """return all the vertices in the graph"""
