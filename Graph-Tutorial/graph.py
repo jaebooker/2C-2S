@@ -18,9 +18,10 @@ class Vertex(object):
         self.neighbors = {}
 
     def addNeighbor(self, vertex, weight=0):
-        """add a neighbor along a weighted edge"""
-        # TODO check if vertex is already a neighbot
-        # TODO if not, add vertex to neighbors and assign weight.
+        """adds a neighbor along a weighted edge"""
+        #checks if vertex is already a neighbos
+        #if not, it adds a vertex to neighbors and assigns weight
+        self.neighbors[vertex] = weight
 
     def __str__(self):
         """output the list of neighbors of this vertex"""
@@ -29,7 +30,7 @@ class Vertex(object):
 
     def getNeighbors(self):
         """return the neighbors of this vertex"""
-        # TODO return the neighbors
+        return self.neighbors
 
     def getId(self):
         """return the id of this vertex"""
@@ -37,8 +38,9 @@ class Vertex(object):
 
     def getEdgeWeight(self, vertex):
         """return the weight of this edge"""
-        # TODO return the weight of the edge from this
-        vertext to the given vertex.
+        return self.neighbors[vertex]
+        #returns the weight of the edge from this
+        #vertext to the given vertex.
 
 
 """ Graph Class
@@ -58,14 +60,20 @@ class Graph:
         """add a new vertex object to the graph with
         the given key and return the vertex
         """
-        # TODO increment the number of vertices
-        # TODO create a new vertex
-        # TODO add the new vertex to the vertex list
-        # TODO return the new vertex
+        #increments the number of vertices
+        #creates a new vertex
+        #adds the new vertex to the vertex list
+        #returns the new vertex
+        self.numVertices += 1
+        new_vertex = Vertex(key)
+        self.vertList[key] = new_vertex
+        return new_vertex
 
     def getVertex(self, n):
         """return the vertex if it exists"""
-        # TODO return the vertex if it is in the graph
+        #returns the vertex if it is in the graph
+        if self.vertList[n] != None:
+            return self.vertList[n]
 
     def addEdge(self, f, t, cost=0):
         """add an edge from vertex f to vertex t with a cost
