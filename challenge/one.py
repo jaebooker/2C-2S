@@ -21,7 +21,10 @@ class Vertex(object):
         """adds a neighbor along a weighted edge"""
         #checks if vertex is already a neighbos
         #if not, it adds a vertex to neighbors and assigns weight
-        self.neighbors[vertex] = weight
+        if vertex != None:
+            self.neighbors[vertex] = weight
+        else:
+            raise KeyError("You need a vertex!")
 
     def __str__(self):
         """output the list of neighbors of this vertex"""
@@ -63,16 +66,20 @@ class Graph:
         #creates a new vertex
         #adds the new vertex to the vertex list
         #returns the new vertex
-        self.num_vertices += 1
-        new_vertex = Vertex(key)
-        self.vert_list[key] = new_vertex
-        return new_vertex
+        if key != None:
+            self.num_vertices += 1
+            new_vertex = Vertex(key)
+            self.vert_list[key] = new_vertex
+            return new_vertex
+        raise KeyError("There's no key here")
 
     def get_vertex(self, n):
         """return the vertex if it exists"""
         #returns the vertex if it is in the graph
         if self.vert_list[n] != None:
             return self.vert_list[n]
+        else:
+            raise KeyError("It would appear the vertex you are searching for does not exist")
 
     def add_edge(self, f, t, cost=0):
         """add an edge from vertex f to vertex t with a cost
@@ -89,7 +96,9 @@ class Graph:
 
     def get_vertices(self):
         """return all the vertices in the graph"""
-        return self.vert_list.keys()
+        if self.vert_list.keys() != None:
+            return self.vert_list.keys()
+        raise KeyError("Vertex not found")
 
     def __iter__(self):
         """iterate over the vertex objects in the
