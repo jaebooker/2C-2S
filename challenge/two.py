@@ -59,7 +59,80 @@ class Links(object):
     def link_length(self):
         return len(self.links)
 
-def bfs(node):
+def bfs_version_one(node):
     print(node.data)
     for k,v in node.pointers:
         print(v)
+def bfs_version_two(nodes, node1, node2):
+    # keep track of explored nodes
+    visited = []
+    # keep track of all the paths to be checked
+    queue = [[node1]]
+
+    # return path if start is goal
+    if node1 == node2:
+        return "Node1 and Node2 are one and the same"
+
+    # keeps looping until all possible paths have been checked
+    while queue != None:
+        # pop the first path from the queue
+        path = queue.pop(0)
+        # get the last node from the path
+        current_node = path[-1]
+        if current_node not in explored:
+            neighbours = nodes[current_node]
+            # go through all neighbour nodes, construct a new path and
+            # push it into the queue
+            for neighbour in neighbours:
+                new_path = list(path)
+                new_path.append(neighbour)
+                queue.append(new_path)
+                # return path if neighbour is goal
+                if neighbour == goal:
+                    return new_path
+
+            # mark node as explored
+            explored.append(current_node)
+    raise KeyError("We couldn't find the other node :'( ")
+
+def bfs(nodes, start_node):
+    visited, queue = Nodes(), [start_node]
+    while queue:
+        vertex = queue.pop(0)
+        if vertex not in visited:
+            visited.add(vertex)
+            queue.extend(nodes[vertex] - visited)
+    return visited
+
+def bfs_paths(nodes, start_node, goal):
+    queue = [(start_node, [start_node])]
+    while queue:
+        (vertex, path) = queue.pop(0)
+        for next in nodes[vertex] - Nodes(path):
+            if next == goal:
+                yield path + [next]
+            else:
+                queue.append((next, path + [next]))
+
+def shortest_path(nodes, start_node, goal):
+    try:
+        return next(bfs_paths(nodes, start_node, goal))
+    except StopIteration:
+        return None
+
+def dfs(nodes, node, visited=None):
+    if visited == None:
+        visited = Nodes()
+    visited.add(node)
+    for i in nodes[node] - visited:
+        dfs(nodes, i, visited)
+    return visited
+
+def dfs_iterative(nodes, node):
+    visited, stack = Nodes(), [node]
+    while stack:
+        vertex = stack.pop()
+        if vertex not in visited:
+            visited.add(vertex)
+            stack.extend(nodes[vertex] - visited)
+    return visited
