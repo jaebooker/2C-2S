@@ -8,7 +8,7 @@ class Node(object):
         if node != None:
             self.pointers[link.node2] = link.weight
         else:
-            raise KeyError("You need a link! ;) ")
+            raise KeyError("You need a link ;) ")
     def get_pointers(self):
         if self.pointers != {}:
             return self.pointers
@@ -29,16 +29,37 @@ class Link(object):
         else:
             raise KeyError("Give it some weight!")
 
+class Nodes(object):
+    def __init__(self, nodes=[]):
+        self.nodes = nodes
+    def get_nodes(self):
+        if self.nodes != []:
+            return self.nodes
+        raise KeyError("There are no nodes :( ")
+    def add_node(self, node):
+        if node != None:
+            self.nodes.append(node)
+        else:
+            raise KeyError("You need a node >:( ")
+    def node_length(self):
+        return len(self.nodes)
+
 class Links(object):
     def __init__(self, links=[]):
-        self.links = []
+        self.links = links
     def get_links(self):
         if self.links != []:
             return self.links
-        else:
-            raise KeyError("No links found :( ")
+        raise KeyError("There are no links :( ")
     def add_link(self, link):
         if link != None:
             self.links.append(link)
         else:
             raise KeyError("You need a link >:( ")
+    def link_length(self):
+        return len(self.links)
+
+def bfs(node):
+    print(node.data)
+    for k,v in node.pointers:
+        print(v)
