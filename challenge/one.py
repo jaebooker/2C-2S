@@ -106,6 +106,69 @@ class Graph:
         """
         return iter(self.vert_list.values())
 
+    def make_graph_from_file(filename):
+        # Check if first line is 'G' or 'D' and store the value. If neither, raise an exception
+        # For each vertex id in first line, add a vertex to the graph
+        # For each of the following lines:
+        # Extract the vertex ids and the (optional) weight, and add an edge to the graph
+        # If it is a Graph and not a Digraph, add another edge in the opposite direction
+        # Raise an exception if line contains too many (or too few) item
+        raise Exception(f"File must begin with G or D, found {firstline}")
+
+    def get_neighbors(self):
+        # Make sure the input node is actually in the graph
+        # Find all edges for the input node
+        # See what nodes are connected to the input node via the edge
+        # return the connected nodes
+        pass
+
+    def breadth_first_search(self, vertex, n):
+        # Make sure the input node is actually in the graph
+        # Run breadth_first_search starting from the input node and going `n` levels deep
+        # Return all nodes found at the `n`th level
+        pass
+
+    def findPath(self, from_vert, to_vert):
+        # Make sure that both nodes from_vert and to_vert are actually in the graph
+        # Run BFS or DFS starting from from_vert
+        # Figure out a way to keep track of each path you take
+        # Once you find to_vert, end the search.
+        # Since you've been tracking the paths, find the path that goes from from_vert to to_vert
+        # Return the path, in the order of nodes visited starting with from_vert and ending with to_vert
+        pass
+
+    def find_shortest_path(self, A, B):
+        # Make sure that both nodes A and B are actually in the graph
+        # Run BFS starting from A
+        # Figure out a way to keep track of each path you take
+        # Once you find B, end the search.
+        # Since you've been tracking the paths, find the shortest path that goes from A to B
+        # Return the shortest path, in the order of nodes visited starting with A and ending with B
+        pass
+
+    def diameter(self):
+        # For every node, find the shortest path from it to every other node in the graph and track the paths and their length
+        # From your list of path/length pairs, pick the one with the largest length and return the length.
+        pass
+
+    def clique(self):
+        # Start with an arbitrary vertex u and add it to the clique
+        # For v in remaining vertices not in the clique
+        # If v is adjacent to every other vertex already in the clique.
+        # 	Add v to the clique
+        # 	Discard v otherwise
+        pass
+
+    def influencer(self):
+        # Create a dictionary of vertex -> PageRank value and set initial values to 1/n
+        # For each iteration:
+        # Create a new dictionary of vertex -> PageRank value, set all to 0
+        # For each vertex v:
+        # Divide up v's previous PageRank value amongst v's neighbors.
+        # For m neighbors, each neighbor receives value/m
+        # Replace previous PageRanks with new PageRanks
+        # Sort all vertices according to their PageRank value, return sorted list
+        pass
 
 # Driver code
 
