@@ -59,42 +59,6 @@ class Links(object):
     def link_length(self):
         return len(self.links)
 
-def bfs_version_one(node):
-    print(node.data)
-    for k,v in node.pointers:
-        print(v)
-def bfs_version_two(nodes, node1, node2):
-    # keep track of explored nodes
-    visited = []
-    # keep track of all the paths to be checked
-    queue = [[node1]]
-
-    # return path if start is goal
-    if node1 == node2:
-        return "Node1 and Node2 are one and the same"
-
-    # keeps looping until all possible paths have been checked
-    while queue != None:
-        # pop the first path from the queue
-        path = queue.pop(0)
-        # get the last node from the path
-        current_node = path[-1]
-        if current_node not in explored:
-            neighbours = nodes[current_node]
-            # go through all neighbour nodes, construct a new path and
-            # push it into the queue
-            for neighbour in neighbours:
-                new_path = list(path)
-                new_path.append(neighbour)
-                queue.append(new_path)
-                # return path if neighbour is goal
-                if neighbour == goal:
-                    return new_path
-
-            # mark node as explored
-            explored.append(current_node)
-    raise KeyError("We couldn't find the other node :'( ")
-
 def bfs(nodes, start_node):
     visited, queue = Nodes(), [start_node]
     while queue:
@@ -136,3 +100,40 @@ def dfs_iterative(nodes, node):
             visited.add(vertex)
             stack.extend(nodes[vertex] - visited)
     return visited
+
+# def dijkstra(graph,start,goal):
+#     shortest_distance = {}
+#     predecessor = {}
+#     unseenNodes = graph
+#     infinity = 9999999
+#     path = []
+#     for node in unseenNodes:
+#         shortest_distance[node] = infinity
+#     shortest_distance[start] = 0
+#
+#     while unseenNodes:
+#         minNode = None
+#         for node in unseenNodes:
+#             if minNode is None:
+#                 minNode = node
+#             elif shortest_distance[node] < shortest_distance[minNode]:
+#                 minNode = node
+#
+#         for childNode, weight in graph[minNode].items():
+#             if weight + shortest_distance[minNode] < shortest_distance[childNode]:
+#                 shortest_distance[childNode] = weight + shortest_distance[minNode]
+#                 predecessor[childNode] = minNode
+#         unseenNodes.pop(minNode)
+#
+#     currentNode = goal
+#     while currentNode != start:
+#         try:
+#             path.insert(0,currentNode)
+#             currentNode = predecessor[currentNode]
+#         except KeyError:
+#             print('Path not reachable')
+#             break
+#     path.insert(0,start)
+#     if shortest_distance[goal] != infinity:
+#         print('Shortest distance is ' + str(shortest_distance[goal]))
+#         print('And the path is ' + str(path))
