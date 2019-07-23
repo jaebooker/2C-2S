@@ -7,7 +7,7 @@ A helper class for the Graph class that defines vertices and vertex neighbors.
 
 class Vertex(object):
 
-    def __init__(self, vertex):
+    def __init__(self, vertex, data=None):
         """initialize a vertex and its neighbors
 
         neighbors: set of vertices adjacent to self,
@@ -15,6 +15,7 @@ class Vertex(object):
         value = weight of edge between self and neighbor.
         """
         self.id = vertex
+        self.data = data
         self.neighbors = {}
 
     def add_neighbor(self, vertex, weight=0):
@@ -107,6 +108,42 @@ class Graph:
         return iter(self.vert_list.values())
 
     def make_graph_from_file(filename):
+        """Read from a file located at `filename` and return the corresponding graph object."""
+        file = open(filename, "r")
+        lines = file.readlines()
+        file.close()
+
+        # Check if it is a graph or digraph
+        graph_or_digraph_str =  lines[0].strip() if len(lines) > 0 else None
+        if graph_or_digraph_str != "G" and graph_or_digraph_str != "D":
+            raise Exception("File must start with G or D.")
+        is_bidirectional = graph_or_digraph_str == "G"
+
+        g = Graph()
+
+        # Add all vertices
+        for vertex_key in lines[1].strip("() \n").split(","):
+            g.add_vertex(vertex_key)
+
+        # Add all edges
+        for line in lines[2:]:
+            # Split components of edge
+            new_edge = line.strip("() \n").split(",")
+            if len(new_edge) < 2 or len(new_edge) > 3:
+                raise Exception("Lines adding edges must include 2 or 3 values")
+
+            # Get vertices
+            vertex1, vertex2 = new_edge[:2]
+
+            # Get weight if it exists
+            weight = int(new_edge[2]) if len(new_edge) == 3 else None
+
+            # Add edge(s)
+            g.add_edge(vertex1, vertex2, weight)
+            if is_bidirectional:
+                g.add_edge(vertex2, vertex1, weight)
+
+        return g
         # Check if first line is 'G' or 'D' and store the value. If neither, raise an exception
         # For each vertex id in first line, add a vertex to the graph
         # For each of the following lines:
