@@ -31,14 +31,14 @@ class Link(object):
 
 class Nodes(object):
     def __init__(self, nodes=[]):
-        self.nodes = nodes
+        self.nodes = Set(nodes)
     def get_nodes(self):
         if self.nodes != []:
             return self.nodes
         raise KeyError("There are no nodes :( ")
     def add_node(self, node):
         if node != None:
-            self.nodes.append(node)
+            self.nodes.extend(node)
         else:
             raise KeyError("You need a node >:( ")
     def node_length(self):
