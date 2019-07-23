@@ -26,7 +26,7 @@ def dfs_i(nodes, node):
 """Inspiration for code thanks to LOFAR788"""
 
 
-def dijkstra(graph,start,goal):
+def dijkstra_x(graph,start,goal):
     shortest_distance = {}
     predecessor = {}
     unseenNodes = graph
