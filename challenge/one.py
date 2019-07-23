@@ -58,6 +58,7 @@ class Graph:
         """
         self.vert_list = {}
         self.num_vertices = 0
+        self.num_edges = 0
 
     def add_vertex(self, key):
         """add a new vertex object to the graph with
@@ -89,7 +90,8 @@ class Graph:
         #if both vertices in the graph, adds the
         # edge by making t a neighbor of f
         #using the addNeighbor method of the Vertex class.
-        if (get_vertex(f) != None) and (get_vertex(t) != None):
+        if (self.get_vertex(f) != None) and (self.get_vertex(t) != None):
+            self.num_edges += 1
             self.vert_list[f].add_neighbor(t, cost)
             self.vert_list[t].add_neighbor(f, cost)
         else:
@@ -106,6 +108,12 @@ class Graph:
         graph, to use sytax: for v in g
         """
         return iter(self.vert_list.values())
+
+    def get_num_vertices(self):
+        return self.num_vertices
+
+    def get_num_edges(self):
+        return self.num_edges
 
     # def make_graph_from_file(filename):
     #     """Read from a file located at `filename` and return the corresponding graph object."""

@@ -1,35 +1,51 @@
 class Node(object):
     def __init__(self, data=None, pointers={}):
+        """initialize a vertex and its neighbors
+        pointers: pointers node is directed toward,
+        data: data for given node
+        """
         self.data = data
         self.pointers = pointers
     def add_pointer(self, link):
+        """adds a neighbor along a weighted edge"""
         if link != None:
             self.pointers[link.node2] = link.weight
         else:
             raise KeyError("You need a link ;) ")
     def get_pointers(self):
+        """return the pointers of this vertex"""
         if self.pointers != {}:
             return self.pointers
         raise KeyError("There are no pointers :( ")
     def find_link(self, node):
+        """finds link, if one exists"""
         if self.pointers[node] != None:
             return self.pointers[node]
         raise KeyError("No link to this node found :'( ")
 
 class Link(object):
     def __init__(self, node1, node2, weight=0, double=False):
+        """initialize a link to its neighbors
+        has two nodes for the given link
+        has a given edge weight
+        defines whether it is double-linked or not
+        """
         self.node1 = node1
         self.node2 = node2
         self.weight = weight
         self.double = double
     def change_weight(self, weight):
-        if weight != None:
+        if weight != None: #changes weight, if weight exists
             self.weight = weight
         else:
             raise KeyError("Give it some weight!")
 
 class Nodes(object):
     def __init__(self, nodes=[]):
+        """initializes a nodes and its neighbors
+        places nodes into a dictionary
+        gets the node data for a key, storing the data of all pointers in a set
+        """
         self.node_dict = {}
         for i in nodes:
             key_list = []
@@ -37,18 +53,25 @@ class Nodes(object):
                 key_list.append(k.data)
             self.node_dict[i.data] = set(key_list)
     def get_nodes(self):
-        if self.nodes != []:
-            return self.nodes
+        #returns nodes
+        if self.node_dict != {}:
+            return self.node_dict
         raise KeyError("There are no nodes :( ")
     def add_node(self, node):
+        #gets the node data for a key, storing the data of all pointers in a set
         if node != None:
-            self.nodes.extend(node)
+            key_list = []
+            for k in i.pointers.keys():
+                key_list.append(k.data)
+            self.node_dict[node.data] = set(key_list)
         else:
             raise KeyError("You need a node >:( ")
     def node_length(self):
-        return len(self.nodes)
+        return len(self.node_dict)
 
 class Links(object):
+    """Does the same thing as Nodes, except with links,
+    you do not have to worry about this for now, since it is not in use yet"""
     def __init__(self, links=[]):
         self.links = links
     def get_links(self):
@@ -100,6 +123,11 @@ class Links(object):
 #     raise KeyError("We couldn't find the other node :'( ")
 """Inspiration for code thanks to Edd Mann"""
 
+
+"""place everything in iterable sets,
+    while the queue is not empty, add the next node to the queue,
+    each time adding visted nodes to visted set
+    return visted"""
 def bfs(nodes, start_node):
     visited, queue = set(), [start_node]
     while queue:
@@ -109,6 +137,9 @@ def bfs(nodes, start_node):
             queue.extend(nodes.node_dict[vertex]-visited)
     return visited
 
+"""place everything in iterable sets,
+    while the queue is not empty, add the next node to the queue,
+    traversing from start node to stop node"""
 def bfs_paths(nodes, start_node, goal):
     queue = [(start_node,[start_node])]
     while queue:
@@ -119,12 +150,16 @@ def bfs_paths(nodes, start_node, goal):
             else:
                 queue.append((next, path + [next]))
 
+"""take bfs path, but return shortest iteration"""
 def shortest_path(nodes, start_node,goal):
     try:
         return next(bfs_paths(nodes,start_node,goal))
     except StopIteration:
         return None
 
+"""place everything in iterable sets,
+    check if already visted,
+    traversing call recursively, getting as far away from node before visting"""
 def dfs(nodes, node, visited=None):
     if visited == None:
         visited = set()
@@ -133,8 +168,11 @@ def dfs(nodes, node, visited=None):
         dfs(nodes, i, visited)
     return visited
 
+"""place everything in iterable sets,
+    check if already visted, add to stack
+    traversing while stack is not empty, getting as far away from node before visting"""
 def dfs_iterative(nodes, node):
-    visited, stact = set(), [node]
+    visited, stack = set(), [node]
     while stack:
         vertex = stack.pop()
         if vertex not in visited:

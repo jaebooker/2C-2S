@@ -15,5 +15,19 @@ class TestOne(unittest.TestCase):
         assert len(vtn) == 1
         assert vtne == 0
 
+    def test_length(self):
+        vt = Vertex(1, "sea")
+        vt2 = Vertex(2, "shore")
+        vt.add_neighbor(vt2)
+        g = Graph()
+        g.add_vertex(vt)
+        g.add_vertex(vt2)
+        g.add_edge(vt, vt2)
+        num_v = g.get_num_vertices()
+        num_e = g.get_num_edges()
+        assert num_v == 2
+        assert num_e == 1
+
+
 if __name__ == '__main__':
     unittest.main()
