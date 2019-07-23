@@ -10,10 +10,12 @@ class TestTwo(unittest.TestCase):
         n1.add_pointer(l1)
         fl = n1.find_link(n2)
         nodes = Nodes([n1,n2])
-        nbfs = bfs(nodes, n1)
+        nbfs = bfs(nodes, n1.data)
+        path = bfs_paths(nodes, n1.data, n2.data)
         assert l1.weight == 0
         assert fl == 0
-        #assert nodes.nodes == [n1,n2]
+        assert nbfs == set(["shore","sea"])
+        assert list(path) == [['sea','shore']]
 
 if __name__ == '__main__':
     unittest.main()

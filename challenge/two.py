@@ -32,10 +32,10 @@ class Nodes(object):
     def __init__(self, nodes=[]):
         self.node_dict = {}
         for i in nodes:
-            dict_keys = []
+            key_list = []
             for k in i.pointers.keys():
-                dict_keys.append(k)
-            self.node_dict[i.data] = set(dict_keys)
+                key_list.append(k.data)
+            self.node_dict[i.data] = set(key_list)
     def get_nodes(self):
         if self.nodes != []:
             return self.nodes
@@ -98,6 +98,7 @@ class Links(object):
 #             # mark node as explored
 #             explored.append(current_node)
 #     raise KeyError("We couldn't find the other node :'( ")
+"""Inspiration for code thanks to Edd Mann"""
 
 def bfs(nodes, start_node):
     visited, queue = set(), [start_node]
@@ -109,10 +110,10 @@ def bfs(nodes, start_node):
     return visited
 
 def bfs_paths(nodes, start_node, goal):
-    queue = [(start_node),[start_node]]
+    queue = [(start_node,[start_node])]
     while queue:
         (vertex, path) = queue.pop(0)
-        for next in nodes[vertex] - Nodes(path):
+        for next in nodes.node_dict[vertex] - set(path):
             if next == goal:
                 yield path + [next]
             else:
@@ -123,25 +124,27 @@ def shortest_path(nodes, start_node,goal):
         return next(bfs_paths(nodes,start_node,goal))
     except StopIteration:
         return None
-#https://pastebin.com/3Q9rqGHA
-#https://eddmann.com/posts/depth-first-search-and-breadth-first-search-in-python/
 
 def dfs(nodes, node, visited=None):
     if visited == None:
-        visited = Nodes()
+        visited = set()
     visited.add(node)
-    for i in nodes[node] - visited:
+    for i in nodes.node_dict[node] - visited:
         dfs(nodes, i, visited)
     return visited
 
 def dfs_iterative(nodes, node):
-    visited, stact = Nodes(), [node]
+    visited, stact = set(), [node]
     while stack:
         vertex = stack.pop()
         if vertex not in visited:
             visited.add(vertex)
-            stack.extend(nodes[vertex]-visited)
+            stack.extend(nodes.node_dict[vertex]-visited)
     return visited
+
+
+"""Inspiration for code thanks to LOFAR788"""
+
 
 def dijkstra(graph,start,goal):
     shortest_distance = {}
