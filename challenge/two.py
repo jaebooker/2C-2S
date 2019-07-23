@@ -30,7 +30,12 @@ class Link(object):
 
 class Nodes(object):
     def __init__(self, nodes=[]):
-        self.nodes = Set(nodes)
+        self.node_dict = {}
+        for i in nodes:
+            dict_keys = []
+            for k in i.pointers.keys():
+                dict_keys.append(k)
+            self.node_dict[i.data] = set(dict_keys)
     def get_nodes(self):
         if self.nodes != []:
             return self.nodes
@@ -95,19 +100,19 @@ class Links(object):
 #     raise KeyError("We couldn't find the other node :'( ")
 
 def bfs(nodes, start_node):
-    visited, queue = Set(), [start_node]
+    visited, queue = set(), [start_node]
     while queue:
         vertex = queue.pop(0)
         if vertex not in visited:
             visited.add(vertex)
-            queue.extend(nodes[vertex]-visited)
+            queue.extend(nodes.node_dict[vertex]-visited)
     return visited
 
 def bfs_paths(nodes, start_node, goal):
     queue = [(start_node),[start_node]]
     while queue:
         (vertex, path) = queue.pop(0)
-        for next in nodes[vertex] - Set(path):
+        for next in nodes[vertex] - Nodes(path):
             if next == goal:
                 yield path + [next]
             else:
@@ -123,14 +128,14 @@ def shortest_path(nodes, start_node,goal):
 
 def dfs(nodes, node, visited=None):
     if visited == None:
-        visited = Set()
+        visited = Nodes()
     visited.add(node)
     for i in nodes[node] - visited:
         dfs(nodes, i, visited)
     return visited
 
 def dfs_iterative(nodes, node):
-    visited, stact = Set(), [node]
+    visited, stact = Nodes(), [node]
     while stack:
         vertex = stack.pop()
         if vertex not in visited:
