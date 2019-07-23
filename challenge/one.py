@@ -29,8 +29,7 @@ class Vertex(object):
 
     def __str__(self):
         """output the list of neighbors of this vertex"""
-        return str(self.id) + " adjancent to " +
-        str([x.id for x in self.neighbors])
+        return str(self.id) + " adjancent to " + str([x.id for x in self.neighbors])
 
     def get_neighbors(self):
         """return the neighbors of this vertex"""
@@ -42,6 +41,7 @@ class Vertex(object):
 
     def get_edge_weight(self, vertex):
         """return the weight of this edge"""
+        print(self.neighbors[vertex])
         #returns the weight of the edge from this
         #vertex to the given vertex.
         return self.neighbors[vertex]
@@ -107,50 +107,50 @@ class Graph:
         """
         return iter(self.vert_list.values())
 
-    def make_graph_from_file(filename):
-        """Read from a file located at `filename` and return the corresponding graph object."""
-        file = open(filename, "r")
-        lines = file.readlines()
-        file.close()
-
-        # Check if it is a graph or digraph
-        graph_or_digraph_str =  lines[0].strip() if len(lines) > 0 else None
-        if graph_or_digraph_str != "G" and graph_or_digraph_str != "D":
-            raise Exception("File must start with G or D.")
-        is_bidirectional = graph_or_digraph_str == "G"
-
-        g = Graph()
-
-        # Add all vertices
-        for vertex_key in lines[1].strip("() \n").split(","):
-            g.add_vertex(vertex_key)
-
-        # Add all edges
-        for line in lines[2:]:
-            # Split components of edge
-            new_edge = line.strip("() \n").split(",")
-            if len(new_edge) < 2 or len(new_edge) > 3:
-                raise Exception("Lines adding edges must include 2 or 3 values")
-
-            # Get vertices
-            vertex1, vertex2 = new_edge[:2]
-
-            # Get weight if it exists
-            weight = int(new_edge[2]) if len(new_edge) == 3 else None
-
-            # Add edge(s)
-            g.add_edge(vertex1, vertex2, weight)
-            if is_bidirectional:
-                g.add_edge(vertex2, vertex1, weight)
-
-        return g
-        # Check if first line is 'G' or 'D' and store the value. If neither, raise an exception
-        # For each vertex id in first line, add a vertex to the graph
-        # For each of the following lines:
-        # Extract the vertex ids and the (optional) weight, and add an edge to the graph
-        # If it is a Graph and not a Digraph, add another edge in the opposite direction
-        # Raise an exception if line contains too many (or too few) item
-        raise Exception(f"File must begin with G or D, found {firstline}")
+    # def make_graph_from_file(filename):
+    #     """Read from a file located at `filename` and return the corresponding graph object."""
+    #     file = open(filename, "r")
+    #     lines = file.readlines()
+    #     file.close()
+    #
+    #     # Check if it is a graph or digraph
+    #     graph_or_digraph_str =  lines[0].strip() if len(lines) > 0 else None
+    #     if graph_or_digraph_str != "G" and graph_or_digraph_str != "D":
+    #         raise Exception("File must start with G or D.")
+    #     is_bidirectional = graph_or_digraph_str == "G"
+    #
+    #     g = Graph()
+    #
+    #     # Add all vertices
+    #     for vertex_key in lines[1].strip("() \n").split(","):
+    #         g.add_vertex(vertex_key)
+    #
+    #     # Add all edges
+    #     for line in lines[2:]:
+    #         # Split components of edge
+    #         new_edge = line.strip("() \n").split(",")
+    #         if len(new_edge) < 2 or len(new_edge) > 3:
+    #             raise Exception("Lines adding edges must include 2 or 3 values")
+    #
+    #         # Get vertices
+    #         vertex1, vertex2 = new_edge[:2]
+    #
+    #         # Get weight if it exists
+    #         weight = int(new_edge[2]) if len(new_edge) == 3 else None
+    #
+    #         # Add edge(s)
+    #         g.add_edge(vertex1, vertex2, weight)
+    #         if is_bidirectional:
+    #             g.add_edge(vertex2, vertex1, weight)
+    #
+    #     return g
+    #     # Check if first line is 'G' or 'D' and store the value. If neither, raise an exception
+    #     # For each vertex id in first line, add a vertex to the graph
+    #     # For each of the following lines:
+    #     # Extract the vertex ids and the (optional) weight, and add an edge to the graph
+    #     # If it is a Graph and not a Digraph, add another edge in the opposite direction
+    #     # Raise an exception if line contains too many (or too few) item
+    #     raise Exception(f"File must begin with G or D, found {firstline}")
 
     def get_neighbors(self):
         # Make sure the input node is actually in the graph

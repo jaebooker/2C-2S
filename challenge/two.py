@@ -1,11 +1,9 @@
-"""Now we do it my way"""
-
 class Node(object):
-    def __init__(self, data=None):
+    def __init__(self, data=None, pointers={}):
         self.data = data
-        self.pointers = {}
+        self.pointers = pointers
     def add_pointer(self, link):
-        if node != None:
+        if link != None:
             self.pointers[link.node2] = link.weight
         else:
             raise KeyError("You need a link ;) ")
@@ -19,10 +17,11 @@ class Node(object):
         raise KeyError("No link to this node found :'( ")
 
 class Link(object):
-    def __init__(self, node1, node2, weight=0):
+    def __init__(self, node1, node2, weight=0, double=False):
         self.node1 = node1
         self.node2 = node2
         self.weight = weight
+        self.double = double
     def change_weight(self, weight):
         if weight != None:
             self.weight = weight
